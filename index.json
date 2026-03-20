@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "skills": [
+    {
+      "name": "skill-creator",
+      "path": "skills/skill-creator",
+      "origin": "upstream",
+      "upstream": "https://github.com/anthropics/skills/tree/main/skills/skill-creator"
+    },
+    {
+      "name": "popiskill-image-text2image-basic-v1",
+      "path": "skills/popiskill-image-text2image-basic-v1",
+      "origin": "popiart",
+      "category": "image",
+      "capability": "text2image"
+    },
+    {
+      "name": "popiskill-image-img2img-basic-v1",
+      "path": "skills/popiskill-image-img2img-basic-v1",
+      "origin": "popiart",
+      "category": "image",
+      "capability": "img2img"
+    },
+    {
+      "name": "popiskill-video-image2video-basic-v1",
+      "path": "skills/popiskill-video-image2video-basic-v1",
+      "origin": "popiart",
+      "category": "video",
+      "capability": "image2video"
+    }
+  ]
+}

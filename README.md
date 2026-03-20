@@ -1,1 +1,38 @@
-popiart
+# Popiart Skillhub
+
+Anthropic-style skill repository for PopiArt.
+
+This repo is aimed at two primary users:
+
+- creator agents that need discoverable, reusable skills
+- creators who want a clear, inspectable skill library
+
+## Layout
+
+```text
+skills/
+  skill-creator/                         upstream reference skill from anthropics/skills
+  popiskill-image-text2image-basic-v1/  basic text-to-image test skill
+  popiskill-image-img2img-basic-v1/     basic image-to-image test skill
+  popiskill-video-image2video-basic-v1/ basic image-to-video test skill
+index.json
+```
+
+## Naming
+
+Skills follow:
+
+```text
+popiskill-<category>-<capability>-<slug>-v<major>
+```
+
+Examples:
+
+- `popiskill-image-text2image-basic-v1`
+- `popiskill-image-img2img-basic-v1`
+- `popiskill-video-image2video-basic-v1`
+
+## Notes
+
+- `skills/skill-creator` is copied from the Anthropic skills repository and keeps its original `LICENSE.txt` under Apache 2.0.
+- The three `popiskill-*` entries are minimal local test skills for validating discovery and invocation flows.

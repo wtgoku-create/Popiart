@@ -1,0 +1,7 @@
+{
+  "source_artifact_id": "art_123",
+  "prompt": "the camera slowly pushes in while the hair moves in the wind",
+  "duration_s": 4,
+  "camera_motion": "slow push-in",
+  "seed": 42
+}
