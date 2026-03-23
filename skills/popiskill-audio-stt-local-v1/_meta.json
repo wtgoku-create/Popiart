@@ -1,0 +1,14 @@
+{
+  "owner": "araa47",
+  "slug": "popiskill-audio-stt-local-v1",
+  "displayName": "PopiArt Local STT",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1770042670809,
+    "commit": "https://github.com/clawdbot/skills/commit/355d1a16968e42f8b9d64b89442a7f5b9fa54936"
+  },
+  "history": [],
+  "version": "1.0.0",
+  "name": "popiskill-audio-stt-local-v1",
+  "dir_name": "popiskill-audio-stt-local-v1"
+}

@@ -1,0 +1,20 @@
+{
+  "owner": "allenfancy-gan",
+  "slug": "popiskill-audio-tts-ima-studio-v1",
+  "displayName": "PopiArt IMA Studio TTS",
+  "latest": {
+    "version": "1.0.5",
+    "publishedAt": 1773331724331,
+    "commit": "https://github.com/openclaw/skills/commit/57c3a0dd1e5a07ce1be7a3cf32b675b8a686a081"
+  },
+  "history": [
+    {
+      "version": "1.0.1",
+      "publishedAt": 1773163348573,
+      "commit": "https://github.com/openclaw/skills/commit/eea346d2c5fe442117e6b86c759ae2e8e7192113"
+    }
+  ],
+  "version": "1.0.5",
+  "name": "popiskill-audio-tts-ima-studio-v1",
+  "dir_name": "popiskill-audio-tts-ima-studio-v1"
+}

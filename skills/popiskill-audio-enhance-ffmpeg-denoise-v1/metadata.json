@@ -1,0 +1,9 @@
+{
+  "name": "popiskill-audio-enhance-ffmpeg-denoise-v1",
+  "repo": "JosiahSiegel/claude-plugin-marketplace",
+  "path": "plugins/ffmpeg-master/skills/ffmpeg-noise-reduction/SKILL.md",
+  "source": "github.com/JosiahSiegel/claude-plugin-marketplace",
+  "downloaded_at": "2026-02-04T03:37:50.261633Z",
+  "dir_name": "popiskill-audio-enhance-ffmpeg-denoise-v1",
+  "category": "data"
+}

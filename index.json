@@ -8,11 +8,186 @@
       "upstream": "https://github.com/anthropics/skills/tree/main/skills/skill-creator"
     },
     {
-      "name": "popiskill-image-text2image-basic-v1",
-      "path": "skills/popiskill-image-text2image-basic-v1",
+      "name": "popiskill-audio-avatar-omnishuman-v1",
+      "path": "skills/popiskill-audio-avatar-omnishuman-v1",
+      "origin": "popiart",
+      "category": "audio",
+      "capability": "avatar"
+    },
+    {
+      "name": "popiskill-audio-dubbing-video-localization-v1",
+      "path": "skills/popiskill-audio-dubbing-video-localization-v1",
+      "origin": "popiart",
+      "category": "audio",
+      "capability": "dubbing"
+    },
+    {
+      "name": "popiskill-audio-dubbing-video-translation-v1",
+      "path": "skills/popiskill-audio-dubbing-video-translation-v1",
+      "origin": "popiart",
+      "category": "audio",
+      "capability": "dubbing"
+    },
+    {
+      "name": "popiskill-audio-editing-postproduction-v1",
+      "path": "skills/popiskill-audio-editing-postproduction-v1",
+      "origin": "popiart",
+      "category": "audio",
+      "capability": "editing"
+    },
+    {
+      "name": "popiskill-audio-editing-smart-editor-v1",
+      "path": "skills/popiskill-audio-editing-smart-editor-v1",
+      "origin": "popiart",
+      "category": "audio",
+      "capability": "editing"
+    },
+    {
+      "name": "popiskill-audio-enhance-ffmpeg-denoise-v1",
+      "path": "skills/popiskill-audio-enhance-ffmpeg-denoise-v1",
+      "origin": "popiart",
+      "category": "audio",
+      "capability": "enhance"
+    },
+    {
+      "name": "popiskill-audio-enhance-ffmpeg-quality-v1",
+      "path": "skills/popiskill-audio-enhance-ffmpeg-quality-v1",
+      "origin": "popiart",
+      "category": "audio",
+      "capability": "enhance"
+    },
+    {
+      "name": "popiskill-audio-enhance-noise-reduction-v1",
+      "path": "skills/popiskill-audio-enhance-noise-reduction-v1",
+      "origin": "popiart",
+      "category": "audio",
+      "capability": "enhance"
+    },
+    {
+      "name": "popiskill-audio-music-evolink-v1",
+      "path": "skills/popiskill-audio-music-evolink-v1",
+      "origin": "popiart",
+      "category": "audio",
+      "capability": "music"
+    },
+    {
+      "name": "popiskill-audio-music-vocal-direction-v1",
+      "path": "skills/popiskill-audio-music-vocal-direction-v1",
+      "origin": "popiart",
+      "category": "audio",
+      "capability": "music"
+    },
+    {
+      "name": "popiskill-audio-pipeline-youtube-shorts-v1",
+      "path": "skills/popiskill-audio-pipeline-youtube-shorts-v1",
+      "origin": "popiart",
+      "category": "audio",
+      "capability": "pipeline"
+    },
+    {
+      "name": "popiskill-audio-podcast-creation-v1",
+      "path": "skills/popiskill-audio-podcast-creation-v1",
+      "origin": "popiart",
+      "category": "audio",
+      "capability": "podcast"
+    },
+    {
+      "name": "popiskill-audio-sfx-elevenlabs-v1",
+      "path": "skills/popiskill-audio-sfx-elevenlabs-v1",
+      "origin": "popiart",
+      "category": "audio",
+      "capability": "sfx"
+    },
+    {
+      "name": "popiskill-audio-sfx-signal-generator-v1",
+      "path": "skills/popiskill-audio-sfx-signal-generator-v1",
+      "origin": "popiart",
+      "category": "audio",
+      "capability": "sfx"
+    },
+    {
+      "name": "popiskill-audio-stt-local-v1",
+      "path": "skills/popiskill-audio-stt-local-v1",
+      "origin": "popiart",
+      "category": "audio",
+      "capability": "stt"
+    },
+    {
+      "name": "popiskill-audio-stt-video-v1",
+      "path": "skills/popiskill-audio-stt-video-v1",
+      "origin": "popiart",
+      "category": "audio",
+      "capability": "stt"
+    },
+    {
+      "name": "popiskill-audio-suite-elevenlabs-v1",
+      "path": "skills/popiskill-audio-suite-elevenlabs-v1",
+      "origin": "popiart",
+      "category": "audio",
+      "capability": "suite"
+    },
+    {
+      "name": "popiskill-audio-suite-generative-v1",
+      "path": "skills/popiskill-audio-suite-generative-v1",
+      "origin": "popiart",
+      "category": "audio",
+      "capability": "suite"
+    },
+    {
+      "name": "popiskill-audio-tool-clipit-v1",
+      "path": "skills/popiskill-audio-tool-clipit-v1",
+      "origin": "popiart",
+      "category": "audio",
+      "capability": "tool"
+    },
+    {
+      "name": "popiskill-audio-tool-flstudio-v1",
+      "path": "skills/popiskill-audio-tool-flstudio-v1",
+      "origin": "popiart",
+      "category": "audio",
+      "capability": "tool"
+    },
+    {
+      "name": "popiskill-audio-tool-videodb-v1",
+      "path": "skills/popiskill-audio-tool-videodb-v1",
+      "origin": "popiart",
+      "category": "audio",
+      "capability": "tool"
+    },
+    {
+      "name": "popiskill-audio-tts-doubao-v1",
+      "path": "skills/popiskill-audio-tts-doubao-v1",
+      "origin": "popiart",
+      "category": "audio",
+      "capability": "tts"
+    },
+    {
+      "name": "popiskill-audio-tts-ima-studio-v1",
+      "path": "skills/popiskill-audio-tts-ima-studio-v1",
+      "origin": "popiart",
+      "category": "audio",
+      "capability": "tts"
+    },
+    {
+      "name": "popiskill-audio-tts-multimodel-v1",
+      "path": "skills/popiskill-audio-tts-multimodel-v1",
+      "origin": "popiart",
+      "category": "audio",
+      "capability": "tts"
+    },
+    {
+      "name": "popiskill-audio-voice-engineer-v1",
+      "path": "skills/popiskill-audio-voice-engineer-v1",
+      "origin": "popiart",
+      "category": "audio",
+      "capability": "voice"
+    },
+    {
+      "name": "popiskill-image-imageboard-4claw-v1",
+      "path": "skills/popiskill-image-imageboard-4claw-v1",
       "origin": "popiart",
       "category": "image",
-      "capability": "text2image"
+      "capability": "imageboard"
     },
     {
       "name": "popiskill-image-img2img-basic-v1",
@@ -22,11 +197,11 @@
       "capability": "img2img"
     },
     {
-      "name": "popiskill-video-image2video-basic-v1",
-      "path": "skills/popiskill-video-image2video-basic-v1",
+      "name": "popiskill-image-img2img-edit-v1",
+      "path": "skills/popiskill-image-img2img-edit-v1",
       "origin": "popiart",
-      "category": "video",
-      "capability": "image2video"
+      "category": "image",
+      "capability": "img2img"
     },
     {
       "name": "popiskill-image-img2img-popistudio-alice-showcase-v1",
@@ -37,12 +212,194 @@
       "showcase": true
     },
     {
+      "name": "popiskill-image-model3d-printpal-v1",
+      "path": "skills/popiskill-image-model3d-printpal-v1",
+      "origin": "popiart",
+      "category": "image",
+      "capability": "model3d"
+    },
+    {
+      "name": "popiskill-image-multimodal-nano-banana-v1",
+      "path": "skills/popiskill-image-multimodal-nano-banana-v1",
+      "origin": "popiart",
+      "category": "image",
+      "capability": "multimodal"
+    },
+    {
+      "name": "popiskill-image-multimodal-wan-studio-v1",
+      "path": "skills/popiskill-image-multimodal-wan-studio-v1",
+      "origin": "popiart",
+      "category": "image",
+      "capability": "multimodal"
+    },
+    {
+      "name": "popiskill-image-text2image-apiyi-v1",
+      "path": "skills/popiskill-image-text2image-apiyi-v1",
+      "origin": "popiart",
+      "category": "image",
+      "capability": "text2image"
+    },
+    {
+      "name": "popiskill-image-text2image-basic-v1",
+      "path": "skills/popiskill-image-text2image-basic-v1",
+      "origin": "popiart",
+      "category": "image",
+      "capability": "text2image"
+    },
+    {
+      "name": "popiskill-image-text2image-beauty-v1",
+      "path": "skills/popiskill-image-text2image-beauty-v1",
+      "origin": "popiart",
+      "category": "image",
+      "capability": "text2image"
+    },
+    {
+      "name": "popiskill-image-text2image-character-sheet-v1",
+      "path": "skills/popiskill-image-text2image-character-sheet-v1",
+      "origin": "popiart",
+      "category": "image",
+      "capability": "text2image"
+    },
+    {
+      "name": "popiskill-image-text2image-hy-v1",
+      "path": "skills/popiskill-image-text2image-hy-v1",
+      "origin": "popiart",
+      "category": "image",
+      "capability": "text2image"
+    },
+    {
+      "name": "popiskill-image-text2image-openai-v1",
+      "path": "skills/popiskill-image-text2image-openai-v1",
+      "origin": "popiart",
+      "category": "image",
+      "capability": "text2image"
+    },
+    {
+      "name": "popiskill-image-text2image-qwen-v1",
+      "path": "skills/popiskill-image-text2image-qwen-v1",
+      "origin": "popiart",
+      "category": "image",
+      "capability": "text2image"
+    },
+    {
+      "name": "popiskill-image-text2image-sketch-v1",
+      "path": "skills/popiskill-image-text2image-sketch-v1",
+      "origin": "popiart",
+      "category": "image",
+      "capability": "text2image"
+    },
+    {
+      "name": "popiskill-image-tool-cad-agent-v1",
+      "path": "skills/popiskill-image-tool-cad-agent-v1",
+      "origin": "popiart",
+      "category": "image",
+      "capability": "tool"
+    },
+    {
+      "name": "popiskill-image-tool-imagemagick-v1",
+      "path": "skills/popiskill-image-tool-imagemagick-v1",
+      "origin": "popiart",
+      "category": "image",
+      "capability": "tool"
+    },
+    {
+      "name": "popiskill-video-avatar-heygen-guide-v1",
+      "path": "skills/popiskill-video-avatar-heygen-guide-v1",
+      "origin": "popiart",
+      "category": "video",
+      "capability": "avatar"
+    },
+    {
+      "name": "popiskill-video-avatar-heygen-lite-v1",
+      "path": "skills/popiskill-video-avatar-heygen-lite-v1",
+      "origin": "popiart",
+      "category": "video",
+      "capability": "avatar"
+    },
+    {
+      "name": "popiskill-video-avatar-heygen-v1",
+      "path": "skills/popiskill-video-avatar-heygen-v1",
+      "origin": "popiart",
+      "category": "video",
+      "capability": "avatar"
+    },
+    {
+      "name": "popiskill-video-avatar-synthesia-v1",
+      "path": "skills/popiskill-video-avatar-synthesia-v1",
+      "origin": "popiart",
+      "category": "video",
+      "capability": "avatar"
+    },
+    {
+      "name": "popiskill-video-avatar-talking-head-v1",
+      "path": "skills/popiskill-video-avatar-talking-head-v1",
+      "origin": "popiart",
+      "category": "video",
+      "capability": "avatar"
+    },
+    {
+      "name": "popiskill-video-image2video-basic-v1",
+      "path": "skills/popiskill-video-image2video-basic-v1",
+      "origin": "popiart",
+      "category": "video",
+      "capability": "image2video"
+    },
+    {
+      "name": "popiskill-video-image2video-manga-style-v1",
+      "path": "skills/popiskill-video-image2video-manga-style-v1",
+      "origin": "popiart",
+      "category": "video",
+      "capability": "image2video"
+    },
+    {
       "name": "popiskill-video-image2video-popistudio-alice-showcase-v1",
       "path": "skills/popiskill-video-image2video-popistudio-alice-showcase-v1",
       "origin": "popiart",
       "category": "video",
       "capability": "image2video",
       "showcase": true
+    },
+    {
+      "name": "popiskill-video-pipeline-auto-post-v1",
+      "path": "skills/popiskill-video-pipeline-auto-post-v1",
+      "origin": "popiart",
+      "category": "video",
+      "capability": "pipeline"
+    },
+    {
+      "name": "popiskill-video-stylize-ascii-v1",
+      "path": "skills/popiskill-video-stylize-ascii-v1",
+      "origin": "popiart",
+      "category": "video",
+      "capability": "stylize"
+    },
+    {
+      "name": "popiskill-video-text2video-ima-studio-v1",
+      "path": "skills/popiskill-video-text2video-ima-studio-v1",
+      "origin": "popiart",
+      "category": "video",
+      "capability": "text2video"
+    },
+    {
+      "name": "popiskill-video-text2video-kling-v1",
+      "path": "skills/popiskill-video-text2video-kling-v1",
+      "origin": "popiart",
+      "category": "video",
+      "capability": "text2video"
+    },
+    {
+      "name": "popiskill-video-text2video-sora2pro-v1",
+      "path": "skills/popiskill-video-text2video-sora2pro-v1",
+      "origin": "popiart",
+      "category": "video",
+      "capability": "text2video"
+    },
+    {
+      "name": "popiskill-video-text2video-studio-v1",
+      "path": "skills/popiskill-video-text2video-studio-v1",
+      "origin": "popiart",
+      "category": "video",
+      "capability": "text2video"
     }
   ]
 }

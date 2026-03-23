@@ -12,11 +12,9 @@ This repo is aimed at two primary users:
 ```text
 skills/
   skill-creator/                         upstream reference skill from anthropics/skills
-  popiskill-image-text2image-basic-v1/  basic text-to-image test skill
-  popiskill-image-img2img-basic-v1/     basic image-to-image test skill
-  popiskill-image-img2img-popistudio-alice-showcase-v1/ PopiStudio Alice showcase skill
-  popiskill-video-image2video-basic-v1/ basic image-to-video test skill
-  popiskill-video-image2video-popistudio-alice-showcase-v1/ PopiStudio Alice video showcase skill
+  popiskill-image-*/                     image generation, editing, multimodal, tooling skills
+  popiskill-video-*/                     video generation, avatar, pipeline, stylize skills
+  popiskill-audio-*/                     audio TTS, STT, dubbing, podcast, music, tooling skills
 index.json
 ```
 
@@ -35,10 +33,13 @@ Examples:
 - `popiskill-image-img2img-popistudio-alice-showcase-v1`
 - `popiskill-video-image2video-basic-v1`
 - `popiskill-video-image2video-popistudio-alice-showcase-v1`
+- `popiskill-audio-tts-multimodel-v1`
+- `popiskill-audio-stt-local-v1`
 
 ## Notes
 
 - `skills/skill-creator` is copied from the Anthropic skills repository and keeps its original `LICENSE.txt` under Apache 2.0.
-- Three of the `popiskill-*` entries are minimal local test skills for validating discovery and invocation flows.
+- The repository now contains a broader PopiArt skill catalog across `image`, `video`, and `audio`.
+- Some of the original `popiskill-*` entries remain minimal local test skills for validating discovery and invocation flows.
 - `popiskill-image-img2img-popistudio-alice-showcase-v1` is a showcase skill derived from the PopiStudio Alice character-consistency workflow and is intended for demo, proof-frame, and creator-agent discovery scenarios.
 - `popiskill-video-image2video-popistudio-alice-showcase-v1` extends the same Alice showcase direction into a short motion clip workflow for teaser shots and creator-agent demo paths.

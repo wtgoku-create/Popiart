@@ -1,0 +1,29 @@
+{
+  "owner": "allenfancy-gan",
+  "slug": "popiskill-video-text2video-ima-studio-v1",
+  "displayName": "IMA Studio Video — Veo, Sora, Kling, Wan, Vidu, Hailuo, SeeDance,  Pixverse",
+  "latest": {
+    "version": "1.0.6",
+    "publishedAt": 1773331860972,
+    "commit": "https://github.com/openclaw/skills/commit/61b7cbf4a0e0bab0b9956ac9012be04572fb6534"
+  },
+  "history": [
+    {
+      "version": "1.0.3",
+      "publishedAt": 1772815813454,
+      "commit": "https://github.com/openclaw/skills/commit/ff8052f34075d189e9d24ae512dca557a36c666a"
+    },
+    {
+      "version": "1.0.2",
+      "publishedAt": 1772548066341,
+      "commit": "https://github.com/openclaw/skills/commit/d79e6a3caea05f1248ab20291ebd49ff01b5ceac"
+    },
+    {
+      "version": "1.0.1",
+      "publishedAt": 1772300526392,
+      "commit": "https://github.com/openclaw/skills/commit/ff171b0aed5357010f16de56b0e81f61d5770264"
+    }
+  ],
+  "version": "1.0.8",
+  "publishedAt": 1774269555684
+}
