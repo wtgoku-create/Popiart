@@ -14,6 +14,7 @@ skills/
   skill-creator/                         upstream reference skill from anthropics/skills
   popiskill-image-text2image-basic-v1/  basic text-to-image test skill
   popiskill-image-img2img-basic-v1/     basic image-to-image test skill
+  popiskill-image-img2img-popistudio-alice-showcase-v1/ PopiStudio Alice showcase skill
   popiskill-video-image2video-basic-v1/ basic image-to-video test skill
 index.json
 ```
@@ -30,9 +31,11 @@ Examples:
 
 - `popiskill-image-text2image-basic-v1`
 - `popiskill-image-img2img-basic-v1`
+- `popiskill-image-img2img-popistudio-alice-showcase-v1`
 - `popiskill-video-image2video-basic-v1`
 
 ## Notes
 
 - `skills/skill-creator` is copied from the Anthropic skills repository and keeps its original `LICENSE.txt` under Apache 2.0.
-- The three `popiskill-*` entries are minimal local test skills for validating discovery and invocation flows.
+- Three of the `popiskill-*` entries are minimal local test skills for validating discovery and invocation flows.
+- `popiskill-image-img2img-popistudio-alice-showcase-v1` is a showcase skill derived from the PopiStudio Alice character-consistency workflow and is intended for demo, proof-frame, and creator-agent discovery scenarios.
