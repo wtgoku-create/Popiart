@@ -35,6 +35,14 @@
       "category": "image",
       "capability": "img2img",
       "showcase": true
+    },
+    {
+      "name": "popiskill-video-image2video-popistudio-alice-showcase-v1",
+      "path": "skills/popiskill-video-image2video-popistudio-alice-showcase-v1",
+      "origin": "popiart",
+      "category": "video",
+      "capability": "image2video",
+      "showcase": true
     }
   ]
 }
