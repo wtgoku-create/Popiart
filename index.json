@@ -261,6 +261,13 @@
       "capability": "text2image"
     },
     {
+      "name": "popiskill-image-text2image-three-view-v1",
+      "path": "skills/popiskill-image-text2image-three-view-v1",
+      "origin": "popiart",
+      "category": "image",
+      "capability": "text2image"
+    },
+    {
       "name": "popiskill-image-text2image-hy-v1",
       "path": "skills/popiskill-image-text2image-hy-v1",
       "origin": "popiart",
