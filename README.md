@@ -12,6 +12,7 @@ This repo is aimed at two primary users:
 ```text
 skills/
   skill-creator/                         upstream reference skill from anthropics/skills
+  popiskill-creator/                    PopiArt-specific bootstrap and authoring helper
   popiskill-image-*/                     image generation, editing, multimodal, tooling skills
   popiskill-video-*/                     video generation, avatar, pipeline, stylize skills
   popiskill-audio-*/                     audio TTS, STT, dubbing, podcast, music, tooling skills
@@ -39,6 +40,7 @@ Examples:
 ## Notes
 
 - `skills/skill-creator` is copied from the Anthropic skills repository and keeps its original `LICENSE.txt` under Apache 2.0.
+- `skills/popiskill-creator` is the PopiArt-specific helper skill for bootstrap, skill authoring, and platform-boundary guidance.
 - The repository now contains a broader PopiArt skill catalog across `image`, `video`, and `audio`.
 - Some of the original `popiskill-*` entries remain minimal local test skills for validating discovery and invocation flows.
 - `popiskill-image-img2img-popistudio-alice-showcase-v1` is a showcase skill derived from the PopiStudio Alice character-consistency workflow and is intended for demo, proof-frame, and creator-agent discovery scenarios.

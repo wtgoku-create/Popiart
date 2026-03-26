@@ -8,6 +8,13 @@
       "upstream": "https://github.com/anthropics/skills/tree/main/skills/skill-creator"
     },
     {
+      "name": "popiskill-creator",
+      "path": "skills/popiskill-creator",
+      "origin": "popiart",
+      "category": "meta",
+      "capability": "creator"
+    },
+    {
       "name": "popiskill-audio-avatar-omnishuman-v1",
       "path": "skills/popiskill-audio-avatar-omnishuman-v1",
       "origin": "popiart",
