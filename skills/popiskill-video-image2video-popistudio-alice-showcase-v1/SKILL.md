@@ -1,90 +1,78 @@
 ---
 name: popiskill-video-image2video-popistudio-alice-showcase-v1
-description: Generate one short showcase video for PopiStudio Alice with strict character consistency. Use this when a creator agent needs a single Alice motion demo, teaser shot, or animated proof clip from the hosted Alice reference image or an Alice keyframe artifact.
+description: Generate one short showcase video for PopiStudio Alice with strict character consistency. Use this when a creator agent needs a single Alice teaser shot, demo clip, or animated proof video from the current Alice master reference or Alice keyframe artifact.
+tags:
+  - official
+  - runtime
+  - video
+  - image2video
+  - showcase
+  - alice
+version: v1
+model_type: video
+estimated_duration_s: 210
+default_profile: true
+profile_description: Official PopiStudio Alice showcase motion skill.
 ---
 
 # PopiStudio Alice Video Showcase
 
-This skill is a showcase-style image-to-video workflow for the PopiStudio Alice
-character.
+This is an official PopiArt showcase runtime skill for the PopiStudio Alice character.
+
+- `Popiart_skillhub` owns the public skill definition.
+- `popiartServer` owns the Alice reference distribution for each environment, jobs, artifacts, and stable media URLs.
+- `PopiNewAPI` owns provider routing and image-to-video channels.
+- `popiartcli` owns discovery, `run`, `jobs`, and artifact retrieval.
 
 Use it when the goal is to:
 
 - turn one Alice frame into one short motion clip
 - create a teaser shot or demo clip for PopiStudio
-- validate Alice character consistency in a simple video workflow
-- test image-to-video routing for creator agents
+- validate Alice character consistency in a simple image-to-video flow
 
-Do not use this skill for:
+Do not use it for:
 
 - long-form editing
 - multi-shot sequences
 - text-only video generation
 - changing Alice into another protagonist
 
-## Source image rules
+## Source input
 
-Prefer one of these sources:
+Prefer one Alice source:
 
-1. `source_artifact_id` from a previous PopiArt Alice image result
-2. the fixed hosted Alice reference image:
+- `source_artifact_id`: preferred when the current Alice keyframe already exists as a PopiArt artifact
+- `image_url` or `reference_image_url`: use the stable Alice media URL published by `popiartServer` for the current environment
 
-`http://8.136.121.101:8790/media/Character_id_card/alice.jpg`
+## Optional input
 
-If both are provided, prefer `source_artifact_id`.
-
-## Required inputs
-
-- one image source:
-  - `source_artifact_id`, or
-  - `image_url`
-
-## Optional inputs
-
-- `motion_prompt`: short motion direction
-- `duration_s`: recommended `3` to `5`
-- `camera_motion`: for example `slow push-in`, `slight handheld drift`, `gentle pan`
-- `mood`: short emotional tone
-- `aspect_ratio`: for example `16:9` or `9:16`
-- `retry_on_character_drift`: default `true`
+- `motion_prompt`
+- `duration_s`
+- `seconds`
+- `camera_motion`
+- `mood`
+- `aspect_ratio`
+- `seed`
+- `retry_on_character_drift`
+- `notes`
 
 ## Character guardrails
 
-The clip must preserve:
+Preserve:
 
-- same Alice identity
-- same anime facial structure and recognizability
-- same hairstyle and hair color
-- same clothing language and main palette
-- Alice as the clear main protagonist through the shot
-
-## Motion guardrails
-
-This showcase skill should stay simple:
-
-- one short shot only
-- one dominant motion instruction
-- limited camera movement
-- no complex action choreography
-
-Recommended visual direction:
-
-```text
-real-world modern Chinese living scene, Sony photo realism, natural light, warm realistic tone, cinematic but restrained motion, high-detail presentation quality
-```
+- Alice identity and recognizability
+- hairstyle, hair color, and facial structure
+- main clothing language and palette
+- Alice as the clear protagonist through the shot
 
 ## Workflow
 
-1. Resolve the image source.
-2. If there is no prior Alice artifact, use the hosted Alice reference image.
-3. Build one short motion prompt that combines:
-   - Alice identity consistency
-   - one motion direction
-   - the modern Chinese real-life visual direction
-4. Run one image-to-video generation only.
-5. Wait for the job to finish.
-6. Pull the video artifact if the user wants the local file.
-7. If Alice drifts too far from the source identity, rerun once with stronger consistency wording and simpler motion.
+1. Resolve the Alice source from `source_artifact_id` or a stable Alice media URL.
+2. Build one short motion prompt that keeps Alice stable and the shot readable.
+3. Run one image-to-video generation only.
+4. Wait for completion.
+5. Pull the returned artifact when a local file is needed.
+6. Retry once only when character drift is obvious and the request explicitly allows it.
 
 ## Command pattern
 
@@ -95,14 +83,14 @@ popiart run popiskill-video-image2video-popistudio-alice-showcase-v1 --input @pa
 Inline example:
 
 ```sh
-popiart run popiskill-video-image2video-popistudio-alice-showcase-v1 --input '{"image_url":"http://8.136.121.101:8790/media/Character_id_card/alice.jpg","motion_prompt":"Alice looks up and smiles while the camera slowly pushes in","duration_s":4,"camera_motion":"slow push-in","aspect_ratio":"16:9"}' --wait
+popiart run popiskill-video-image2video-popistudio-alice-showcase-v1 --input '{"image_url":"https://media.example.com/popistudio/alice-master.jpg","motion_prompt":"Alice looks up and smiles while the camera slowly pushes in","duration_s":4,"camera_motion":"slow push-in","aspect_ratio":"16:9"}' --wait
 ```
 
 ## Payload template
 
 ```json
 {
-  "image_url": "http://8.136.121.101:8790/media/Character_id_card/alice.jpg",
+  "image_url": "https://media.example.com/popistudio/alice-master.jpg",
   "motion_prompt": "Alice looks up and smiles while the camera slowly pushes in",
   "duration_s": 4,
   "camera_motion": "slow push-in",
@@ -112,27 +100,15 @@ popiart run popiskill-video-image2video-popistudio-alice-showcase-v1 --input '{"
 }
 ```
 
-Version with artifact input:
-
-```json
-{
-  "source_artifact_id": "art_123",
-  "motion_prompt": "Alice turns toward the window as soft wind moves her hair",
-  "duration_s": 4,
-  "camera_motion": "gentle pan",
-  "aspect_ratio": "16:9"
-}
-```
-
 ## Output handling
 
-- read `artifact_ids` from the finished job
-- pull the video artifact with `popiart artifacts pull <artifact-id>`
-- record whether Alice consistency passed or needs one retry
+- read `job_id`
+- read `artifact_ids`
+- inspect `url` or `media_id` when a stable media URL is returned
+- use `popiart artifacts pull <artifact-id>` to save the video locally
 
 ## Operating guidance
 
-- Keep the clip short and legible. This is a showcase skill, not a full episode workflow.
-- Prefer subtle performance and restrained camera motion.
-- If the user needs multiple connected shots, move into a storyboard or sequence workflow.
-- If the user needs a fresh Alice still first, run the Alice image showcase skill before this one.
+- Keep the clip short and the motion instruction singular.
+- Prefer a current Alice keyframe artifact over a raw external URL when both are available.
+- If the user first needs a still frame, run `popiskill-image-img2img-popistudio-alice-showcase-v1`.

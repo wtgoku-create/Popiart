@@ -1,45 +1,68 @@
 ---
 name: popiskill-video-image2video-basic-v1
-description: Turn one source image into a short video through popiart. Use this when the user wants the simplest possible image-to-video test flow for motion previews, short animated shots, or validating that the PopiArt video pipeline is working.
+description: Turn one source image into a short video through the PopiArt runtime baseline. Use this when the user wants the most direct image-to-video path for motion previews, short teaser clips, or runtime validation.
+tags:
+  - official
+  - runtime
+  - video
+  - image2video
+  - basic
+version: v1
+model_type: video
+estimated_duration_s: 180
+default_profile: true
+profile_description: Official PopiArt runtime baseline for single-shot image-to-video generation.
 ---
 
 # PopiArt Image To Video Basic
 
-This skill is the simplest image-to-video path in PopiArt.
+This is an official PopiArt runtime catalog skill.
+
+- `Popiart_skillhub` owns the public skill definition.
+- `popiartServer` owns source resolution, jobs, artifacts, and stable media URLs.
+- `PopiNewAPI` owns provider routing and image-to-video model access.
+- `popiartcli` owns discovery, `run`, `jobs`, `artifacts`, and the current built-in direct-fallback bridge for this baseline skill when the remote catalog entry is still a placeholder.
 
 Use it when the goal is to:
 
-- animate one still image into a short clip
-- validate the basic video pipeline
-- generate a quick motion preview from an image artifact or image URL
+- animate one still image into one short clip
+- validate the basic PopiArt video path
+- generate a quick motion preview from an artifact or image URL
 
-Do not use this skill for:
+Do not use it for:
 
-- long-form video editing
+- long-form editing
 - multi-shot generation
-- storyboard planning
 - text-only video generation
 
-## Required inputs
+## Required input
 
 - one image source:
   - `source_artifact_id`, or
-  - `image_url`
+  - `image_url`, or
+  - `reference_image_url`
 
-## Optional inputs
+## Optional input
 
-- `prompt`: motion direction or scene behavior
-- `duration_s`: short clip length
+- `prompt`
+- `negative_prompt`
+- `duration_s`
+- `seconds`
+- `fps`
 - `camera_motion`
+- `motion_intensity`
+- `style`
+- `aspect_ratio`
 - `seed`
+- `notes`
 
 ## Workflow
 
 1. Prefer `source_artifact_id` when the source image already comes from PopiArt.
-2. Keep the clip short for this basic skill.
-3. Provide only one clear motion instruction.
+2. Use `image_url` only when the source already lives at a stable URL.
+3. Keep the clip short and the motion instruction singular.
 4. Run through `popiart` and wait for the job.
-5. Pull the resulting artifact if the user wants the local file.
+5. Pull the returned artifact when a local file is needed.
 
 ## Command pattern
 
@@ -67,11 +90,16 @@ popiart run popiskill-video-image2video-basic-v1 --input '{"source_artifact_id":
 
 ## Output handling
 
-- read `artifact_ids` from the finished job
-- pull the video artifact with `popiart artifacts pull <artifact-id>`
+After the job finishes:
+
+- read `job_id`
+- inspect `artifact_ids`
+- inspect `execution_mode` and `model_id` when the CLI had to use the built-in direct-fallback bridge
+- use `popiart artifacts pull <artifact-id>` to save the video locally
 
 ## Operating guidance
 
-- Start with short clips and simple camera motion.
-- If the user only has text, use a text2image skill first to create the starting frame.
-- If the user wants more than one shot, break the request into separate runs.
+- For local source files, upload first with `popiart artifacts upload ./source.png --role source`.
+- `reference_image_url` is a compatibility alias for `image_url`.
+- `seconds` is a compatibility alias for `duration_s`.
+- If the user only has text, run `popiskill-image-text2image-basic-v1` first.

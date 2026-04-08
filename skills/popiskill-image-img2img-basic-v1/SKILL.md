@@ -1,42 +1,62 @@
 ---
 name: popiskill-image-img2img-basic-v1
-description: Transform one existing image into a new image through popiart. Use this when the user already has a source image and wants the simplest possible image-to-image test flow for redraws, style transfer, or pipeline validation.
+description: Transform one existing image into a new image through the PopiArt runtime baseline. Use this when the user already has a source image and wants the most direct image-to-image path for redraws, style transfer, or pipeline validation.
+tags:
+  - official
+  - runtime
+  - image
+  - img2img
+  - basic
+version: v1
+model_type: image
+estimated_duration_s: 150
+default_profile: true
+profile_description: Official PopiArt runtime baseline for single-image image-to-image generation.
 ---
 
 # PopiArt Image To Image Basic
 
-This skill is the simplest img2img path in PopiArt.
+This is an official PopiArt runtime catalog skill.
+
+- `Popiart_skillhub` owns the public skill definition.
+- `popiartServer` owns source resolution, execution, jobs, artifacts, and stable media URLs.
+- `PopiNewAPI` owns provider routing and upstream model access.
+- `popiartcli` owns source upload ergonomics, `run`, `jobs`, and `artifacts`.
 
 Use it when the goal is to:
 
 - take one existing image and restyle or redraw it
 - validate that image-conditioned generation works
-- make a lightweight variation from a prior artifact or image URL
+- make one lightweight variation from a PopiArt artifact or a stable image URL
 
-Do not use this skill for:
+Do not use it for:
 
 - text-only generation
-- multi-step retouch pipelines
+- mask-heavy multi-step retouch pipelines
 - video generation
 
-## Required inputs
+## Required input
 
 - `prompt`: the transformation intent
 - one image source:
   - `source_artifact_id`, or
-  - `image_url`
+  - `image_url`, or
+  - `reference_image_url`
 
-## Optional inputs
+## Optional input
 
-- `strength`: how strongly to transform the source, usually `0.2` to `0.8`
+- `strength`
 - `style`
+- `size`
+- `aspect_ratio`
 - `seed`
+- `notes`
 
 ## Workflow
 
-1. Prefer `source_artifact_id` when the image comes from a previous PopiArt job.
-2. Use `image_url` only when the source already lives at a reachable URL.
-3. Build the smallest valid payload.
+1. Prefer `source_artifact_id` when the source image already comes from PopiArt.
+2. Use `image_url` or `reference_image_url` only when the source already lives at a stable URL.
+3. Build the smallest valid JSON payload.
 4. Run the skill through `popiart`.
 5. Wait for completion and pull the output artifact if needed.
 
@@ -60,17 +80,23 @@ popiart run popiskill-image-img2img-basic-v1 --input '{"prompt":"convert this in
   "source_artifact_id": "art_123",
   "strength": 0.6,
   "style": "soft pastel",
+  "aspect_ratio": "1:1",
   "seed": 42
 }
 ```
 
 ## Output handling
 
-- inspect `artifact_ids` from the completed job
-- pull the selected artifact with `popiart artifacts pull <artifact-id>`
+After the job finishes:
+
+- read `job_id`
+- inspect `artifact_ids`
+- inspect `url` or `media_id` when a stable media URL is returned
+- use `popiart artifacts pull <artifact-id>` to save the result locally
 
 ## Operating guidance
 
-- If no source image exists yet, switch to the text2image skill first.
-- Keep this skill focused on one source image and one output direction.
-- If the user wants motion from the result, hand off to the image2video skill.
+- For local source files, upload first with `popiart artifacts upload ./source.png --role source`.
+- `reference_image_url` is a compatibility alias for `image_url`.
+- If no source image exists yet, switch to `popiskill-image-text2image-basic-v1`.
+- If the user wants motion from the result, switch to `popiskill-video-image2video-basic-v1`.

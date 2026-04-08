@@ -1,33 +1,46 @@
 # Popiart Skillhub
 
-Anthropic-style skill repository for PopiArt.
+Minimal PopiArt runtime skill catalog.
 
-This repo is aimed at two primary users:
+This working tree now keeps only the seven official runtime skills that are intended to stay usable across the current platform split:
 
-- creator agents that need discoverable, reusable skills
-- creators who want a clear, inspectable skill library
+- `popiartcli`: discovery, auth UX, `run`, jobs, and artifacts
+- `popiartServer`: skill registration, execution, jobs, artifacts, stable media URLs
+- `PopiNewAPI`: upstream model routing and provider access
 
 ## Layout
 
 ```text
 skills/
-  skill-creator/                         upstream reference skill from anthropics/skills
-  popiskill-creator/                    PopiArt-specific bootstrap and authoring helper
-  popiskill-image-*/                     image generation, editing, multimodal, tooling skills
-  popiskill-video-*/                     video generation, avatar, pipeline, stylize skills
-  popiskill-audio-*/                     audio TTS, STT, dubbing, podcast, music, tooling skills
+  popiskill-image-text2image-basic-v1/
+  popiskill-image-img2img-basic-v1/
+  popiskill-image-img2img-popistudio-alice-showcase-v1/
+  popiskill-video-image2video-basic-v1/
+  popiskill-video-image2video-popistudio-alice-showcase-v1/
+  popiskill-audio-tts-multimodel-v1/
+  popiskill-audio-stt-local-v1/
 index.json
+```
+
+Each skill directory uses the same portable structure:
+
+```text
+skills/<skill-name>/
+  SKILL.md
+  input_schema.json
+  output_schema.json
+  agents/openai.yaml
 ```
 
 ## Naming
 
-Skills follow:
+Runtime skills follow:
 
 ```text
 popiskill-<category>-<capability>-<slug>-v<major>
 ```
 
-Examples:
+## Official runtime set
 
 - `popiskill-image-text2image-basic-v1`
 - `popiskill-image-img2img-basic-v1`
@@ -39,9 +52,5 @@ Examples:
 
 ## Notes
 
-- `skills/skill-creator` is copied from the Anthropic skills repository and keeps its original `LICENSE.txt` under Apache 2.0.
-- `skills/popiskill-creator` is the PopiArt-specific helper skill for bootstrap, skill authoring, and platform-boundary guidance.
-- The repository now contains a broader PopiArt skill catalog across `image`, `video`, and `audio`.
-- Some of the original `popiskill-*` entries remain minimal local test skills for validating discovery and invocation flows.
-- `popiskill-image-img2img-popistudio-alice-showcase-v1` is a showcase skill derived from the PopiStudio Alice character-consistency workflow and is intended for demo, proof-frame, and creator-agent discovery scenarios.
-- `popiskill-video-image2video-popistudio-alice-showcase-v1` extends the same Alice showcase direction into a short motion clip workflow for teaser shots and creator-agent demo paths.
+- This catalog intentionally drops historical `openclaw`, `infsh`, and third-party wrapper skills.
+- The authoring workflow now assumes `popiskill-creator` guidance from the `popiartcli` repo, but the public runtime catalog here is limited to the seven runtime skills above.

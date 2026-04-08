@@ -1,79 +1,103 @@
 ---
 name: popiskill-audio-stt-local-v1
-description: Transcribe speech locally with selectable Parakeet or Whisper backends. Use this when the user wants offline or local-first speech-to-text without relying on hosted APIs.
-metadata: {"openclaw":{"emoji":"🎙️","requires":{"bins":["ffmpeg"]}}}
+description: Transcribe audio or video through the PopiArt runtime baseline for local-first speech-to-text. Use this when the user wants a PopiArt-managed STT path for transcripts, captions, or analysis without manually running local scripts.
+tags:
+  - official
+  - runtime
+  - audio
+  - stt
+  - local
+version: v1
+model_type: audio
+estimated_duration_s: 120
+default_profile: true
+profile_description: Official PopiArt runtime baseline for local-first speech-to-text transcription.
 ---
-# PopiArt Local STT
 
-Unified local speech-to-text using ONNX Runtime with int8 quantization. Choose your backend:
+# PopiArt STT Local
 
-- **Parakeet** (default): Best accuracy for English, correctly captures names and filler words
-- **Whisper**: Fastest inference, supports 99 languages
+This is an official PopiArt runtime catalog skill.
 
-## Usage
+- `Popiart_skillhub` owns the public skill definition.
+- `popiartServer` owns registration, execution, jobs, artifacts, and transcript outputs.
+- `PopiNewAPI` owns any managed speech-model routing that sits behind the server boundary.
+- `popiartcli` owns source upload ergonomics, `run`, `jobs`, and artifact retrieval.
 
-```bash
-# Default: Parakeet v2 (best English accuracy)
-~/.openclaw/skills/popiskill-audio-stt-local-v1/scripts/local-stt.py audio.ogg
+Use it when the goal is to:
 
-# Explicit backend selection
-~/.openclaw/skills/popiskill-audio-stt-local-v1/scripts/local-stt.py audio.ogg -b whisper
-~/.openclaw/skills/popiskill-audio-stt-local-v1/scripts/local-stt.py audio.ogg -b parakeet -m v3
+- transcribe one audio or video source into text
+- produce a quick transcript or caption draft through PopiArt
+- keep the workflow inside PopiArt instead of manually running local STT scripts
 
-# Quiet mode (suppress progress)
-~/.openclaw/skills/popiskill-audio-stt-local-v1/scripts/local-stt.py audio.ogg --quiet
+Do not use it for:
+
+- text-to-speech output
+- full dubbing workflows
+- direct provider-key experiments outside PopiArt
+
+## Required input
+
+- one media source:
+  - `source_artifact_id`, or
+  - `audio_url`, or
+  - `video_url`
+
+## Optional input
+
+- `language`
+- `backend`
+- `model`
+- `diarization`
+- `timestamps`
+- `format`
+- `prompt`
+- `notes`
+
+## Workflow
+
+1. Prefer `source_artifact_id` when the source clip already comes from PopiArt.
+2. Use `audio_url` or `video_url` only when the source already lives at a stable URL.
+3. Run the skill through `popiart`.
+4. Wait for completion.
+5. Pull transcript artifacts or read direct text fields from the result.
+
+## Command pattern
+
+```sh
+popiart run popiskill-audio-stt-local-v1 --input @params.json --wait
 ```
 
-## Options
+Inline example:
 
-- `-b/--backend`: `parakeet` (default), `whisper`
-- `-m/--model`: Model variant (see below)
-- `--no-int8`: Disable int8 quantization
-- `-q/--quiet`: Suppress progress
-- `--room-id`: Matrix room ID for direct message
+```sh
+popiart run popiskill-audio-stt-local-v1 --input '{"source_artifact_id":"art_123","language":"zh","timestamps":true}' --wait
+```
 
-## Models
-
-### Parakeet (default backend)
-| Model | Description |
-|-------|-------------|
-| **v2** (default) | English only, best accuracy |
-| v3 | Multilingual |
-
-### Whisper
-| Model | Description |
-|-------|-------------|
-| tiny | Fastest, lower accuracy |
-| **base** (default) | Good balance |
-| small | Better accuracy |
-| large-v3-turbo | Best quality, slower |
-
-## Benchmark (24s audio)
-
-| Backend/Model | Time | RTF | Notes |
-|---------------|------|-----|-------|
-| Whisper Base int8 | 0.43s | 0.018x | Fastest |
-| **Parakeet v2 int8** | 0.60s | 0.025x | Best accuracy |
-| Parakeet v3 int8 | 0.63s | 0.026x | Multilingual |
-
-## openclaw.json
+## Payload template
 
 ```json
 {
-  "tools": {
-    "media": {
-      "audio": {
-        "enabled": true,
-        "models": [
-          {
-            "type": "cli",
-            "command": "~/.openclaw/skills/popiskill-audio-stt-local-v1/scripts/local-stt.py",
-            "args": ["--quiet", "{{MediaPath}}"],
-            "timeoutSeconds": 30
-          }
-        ]
-      }
-    }
-  }
+  "source_artifact_id": "art_123",
+  "language": "zh",
+  "backend": "auto",
+  "model": "default",
+  "diarization": false,
+  "timestamps": true,
+  "format": "text"
 }
 ```
+
+## Output handling
+
+After the job finishes:
+
+- read `job_id`
+- inspect `text` when the runtime returns inline transcript text
+- inspect `artifact_ids` for transcript, subtitle, or segment artifacts
+- use `popiart artifacts pull <artifact-id>` when a local transcript file is needed
+
+## Operating guidance
+
+- For local media files, upload first with `popiart artifacts upload ./clip.wav --role source`.
+- `video_url` is acceptable when the runtime extracts audio server-side.
+- If the user needs spoken audio output instead, switch to `popiskill-audio-tts-multimodel-v1`.

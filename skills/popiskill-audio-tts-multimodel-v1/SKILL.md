@@ -1,141 +1,102 @@
 ---
 name: popiskill-audio-tts-multimodel-v1
-description: Convert text to natural speech through a multi-model TTS stack including ElevenLabs, DIA, Kokoro, and Chatterbox. Use this when the user wants a general PopiArt text-to-speech entry point with provider choice.
-allowed-tools: Bash(infsh *)
+description: Convert text to speech through the PopiArt runtime baseline for multi-model TTS. Use this when the user wants one general text-to-speech entry point without handling upstream provider credentials directly.
+tags:
+  - official
+  - runtime
+  - audio
+  - tts
+  - multimodel
+version: v1
+model_type: audio
+estimated_duration_s: 90
+default_profile: true
+profile_description: Official PopiArt runtime baseline for text-to-speech generation.
 ---
-# PopiArt Multimodel TTS
 
-Convert text to natural speech via [inference.sh](https://inference.sh) CLI.
+# PopiArt TTS Multimodel
 
-![Text-to-Speech](https://cloud.inference.sh/u/4mg21r6ta37mpaz6ktzwtt8krr/01jz00krptarq4bwm89g539aea.png)
+This is an official PopiArt runtime catalog skill.
 
-## Quick Start
+- `Popiart_skillhub` owns the public skill definition.
+- `popiartServer` owns registration, execution, jobs, artifacts, and stable media URLs.
+- `PopiNewAPI` owns provider routing and upstream voice models.
+- `popiartcli` owns discovery, `run`, `jobs`, and artifact retrieval.
 
-> Requires inference.sh CLI (`infsh`). [Install instructions](https://raw.githubusercontent.com/inference-sh/skills/refs/heads/main/cli-install.md)
+Use it when the goal is to:
 
-```bash
-infsh login
+- turn one text block into one spoken-audio result
+- route through PopiArt's managed TTS stack instead of a raw provider SDK
+- generate narration, prompts, or creator-agent audio previews
 
-# Generate speech
-infsh app run infsh/kokoro-tts --input '{"text": "Hello, welcome to our product demo."}'
+Do not use it for:
+
+- speech-to-text transcription
+- multi-step dubbing workflows
+- direct provider-key experiments outside PopiArt
+
+## Required input
+
+- `text`: the content to speak
+
+## Optional input
+
+- `voice`
+- `language`
+- `provider`
+- `voice_style`
+- `speed`
+- `emotion`
+- `format`
+- `sample_rate_hz`
+- `seed`
+- `notes`
+
+## Workflow
+
+1. Authenticate with a PopiArt product-layer key if needed.
+2. Build the smallest valid JSON payload.
+3. Run the skill through `popiart`.
+4. Wait for completion.
+5. Pull the returned audio artifact if a local file is needed.
+
+## Command pattern
+
+```sh
+popiart run popiskill-audio-tts-multimodel-v1 --input @params.json --wait
 ```
 
+Inline example:
 
-## Available Models
-
-| Model | App ID | Best For |
-|-------|--------|----------|
-| ElevenLabs TTS | `elevenlabs/tts` | Premium quality, 22+ voices, 32 languages |
-| DIA TTS | `infsh/dia-tts` | Conversational, expressive |
-| Kokoro TTS | `infsh/kokoro-tts` | Fast, natural |
-| Chatterbox | `infsh/chatterbox` | General purpose |
-| Higgs Audio | `infsh/higgs-audio` | Emotional control |
-| VibeVoice | `infsh/vibevoice` | Podcasts, long-form |
-
-## Browse All Audio Apps
-
-```bash
-infsh app list --category audio
+```sh
+popiart run popiskill-audio-tts-multimodel-v1 --input '{"text":"Hello, welcome to our product demo.","voice":"warm-female-cn","language":"zh-CN","format":"mp3"}' --wait
 ```
 
-## Examples
+## Payload template
 
-### Basic Text-to-Speech
-
-```bash
-infsh app run infsh/kokoro-tts --input '{"text": "Welcome to our tutorial."}'
+```json
+{
+  "text": "Hello, welcome to our product demo.",
+  "voice": "warm-female-cn",
+  "language": "zh-CN",
+  "provider": "auto",
+  "voice_style": "warm and clear",
+  "speed": 1.0,
+  "format": "mp3"
+}
 ```
 
-### Conversational TTS with DIA
+## Output handling
 
-```bash
-infsh app sample infsh/dia-tts --save input.json
+After the job finishes:
 
-# Edit input.json:
-# {
-#   "text": "Hey! How are you doing today? I'm really excited to share this with you.",
-#   "voice": "conversational"
-# }
+- read `job_id`
+- inspect `artifact_ids`
+- inspect `url` or `media_id` when a stable media URL is returned
+- use `popiart artifacts pull <artifact-id>` to save the audio locally
 
-infsh app run infsh/dia-tts --input input.json
-```
+## Operating guidance
 
-### Long-form Audio (Podcasts)
-
-```bash
-infsh app sample infsh/vibevoice --save input.json
-
-# Edit input.json with your podcast script
-infsh app run infsh/vibevoice --input input.json
-```
-
-### Expressive Speech with Higgs
-
-```bash
-infsh app sample infsh/higgs-audio --save input.json
-
-# {
-#   "text": "This is absolutely incredible!",
-#   "emotion": "excited"
-# }
-
-infsh app run infsh/higgs-audio --input input.json
-```
-
-## Use Cases
-
-- **Voiceovers**: Product demos, explainer videos
-- **Audiobooks**: Convert text to spoken word
-- **Podcasts**: Generate podcast episodes
-- **Accessibility**: Make content accessible
-- **IVR**: Phone system voice prompts
-- **Video Narration**: Add narration to videos
-
-## Combine with Video
-
-Generate speech, then create a talking head video:
-
-```bash
-# 1. Generate speech
-infsh app run infsh/kokoro-tts --input '{"text": "Your script here"}' > speech.json
-
-# 2. Use the audio URL with OmniHuman for avatar video
-infsh app run bytedance/omnihuman-1-5 --input '{
-  "image_url": "https://portrait.jpg",
-  "audio_url": "<audio-url-from-step-1>"
-}'
-```
-
-## Related Skills
-
-```bash
-# ElevenLabs TTS (premium, 22+ voices)
-npx skills add inference-sh/skills@elevenlabs-tts
-
-# ElevenLabs dialogue (multi-speaker)
-npx skills add inference-sh/skills@elevenlabs-dialogue
-
-# Full platform skill (all 150+ apps)
-npx skills add inference-sh/skills@infsh-cli
-
-# AI avatars (combine TTS with talking heads)
-npx skills add inference-sh/skills@ai-avatar-video
-
-# AI music generation
-npx skills add inference-sh/skills@ai-music-generation
-
-# Speech-to-text (transcription)
-npx skills add inference-sh/skills@speech-to-text
-
-# Video generation
-npx skills add inference-sh/skills@ai-video-generation
-```
-
-Browse all apps: `infsh app list`
-
-## Documentation
-
-- [Running Apps](https://inference.sh/docs/apps/running) - How to run apps via CLI
-- [Audio Transcription Example](https://inference.sh/docs/examples/audio-transcription) - Audio processing workflows
-- [Apps Overview](https://inference.sh/docs/apps/overview) - Understanding the app ecosystem
-
+- Use the PopiArt product-layer key only; do not ask the user for raw provider keys.
+- Keep `provider` optional unless the caller explicitly needs to pin a managed route.
+- If the user needs transcript text from an existing clip, switch to `popiskill-audio-stt-local-v1`.

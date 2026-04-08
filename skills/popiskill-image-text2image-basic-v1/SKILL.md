@@ -1,42 +1,60 @@
 ---
 name: popiskill-image-text2image-basic-v1
-description: Generate a single image from a text prompt through popiart. Use this when the user wants the simplest possible text-to-image flow for testing, quick concept art, style exploration, or validating that the PopiArt image pipeline is working.
+description: Generate one image from text through the PopiArt runtime baseline. Use this when the user wants the most direct text-to-image path for smoke tests, concept frames, or simple creator-agent image generation.
+tags:
+  - official
+  - runtime
+  - image
+  - text2image
+  - basic
+version: v1
+model_type: image
+estimated_duration_s: 120
+default_profile: true
+profile_description: Official PopiArt runtime baseline for single-image text-to-image generation.
 ---
 
 # PopiArt Text To Image Basic
 
-This skill is the simplest text-to-image path in PopiArt.
+This is an official PopiArt runtime catalog skill.
+
+- `Popiart_skillhub` owns the public skill definition.
+- `popiartServer` owns registration, execution, jobs, artifacts, and stable media URLs.
+- `PopiNewAPI` owns provider routing and upstream model access.
+- `popiartcli` owns discovery, auth UX, `run`, `jobs`, and `artifacts`.
 
 Use it when the goal is to:
 
 - turn one prompt into one image
-- test that `popiart` auth, routing, jobs, and artifacts are working
-- create a quick visual concept without advanced workflow logic
+- validate that the PopiArt image path is alive end to end
+- generate one quick concept frame without a multi-step workflow
 
-Do not use this skill for:
+Do not use it for:
 
-- multi-image batches
-- storyboard generation
-- image editing based on an existing image
+- source-image editing
+- multi-shot storyboards
 - video output
 
-## Required inputs
+## Required input
 
-- `prompt`: the main text prompt
+- `prompt`: the main image request
 
-## Optional inputs
+## Optional input
 
-- `style`: short style hint
-- `aspect_ratio`: for example `1:1`, `16:9`, `9:16`
-- `seed`: integer seed when reproducibility matters
+- `negative_prompt`
+- `style`
+- `size`
+- `aspect_ratio`
+- `seed`
+- `notes`
 
 ## Workflow
 
-1. Confirm `popiart` is authenticated if needed.
+1. Authenticate with a PopiArt product-layer key if needed.
 2. Build the smallest valid JSON payload.
-3. Run the skill through the CLI.
+3. Run the skill through `popiart`.
 4. Wait for completion.
-5. Pull the resulting artifact if the user wants the local file.
+5. Pull the returned artifact when a local file is needed.
 
 ## Command pattern
 
@@ -47,7 +65,7 @@ popiart run popiskill-image-text2image-basic-v1 --input @params.json --wait
 Inline example:
 
 ```sh
-popiart run popiskill-image-text2image-basic-v1 --input '{"prompt":"a cinematic tea shop at sunset","aspect_ratio":"16:9"}' --wait
+popiart run popiskill-image-text2image-basic-v1 --input '{"prompt":"a cinematic tea shop at sunset","aspect_ratio":"16:9","style":"soft anime lighting"}' --wait
 ```
 
 ## Payload template
@@ -65,11 +83,14 @@ popiart run popiskill-image-text2image-basic-v1 --input '{"prompt":"a cinematic 
 
 After the job finishes:
 
-- read `artifact_ids` from the result
-- use `popiart artifacts pull <artifact-id>` to save the file locally when needed
+- read `job_id`
+- read `artifact_ids`
+- inspect `url` or `media_id` when a stable media URL is returned
+- use `popiart artifacts pull <artifact-id>` when a local file is needed
 
 ## Operating guidance
 
-- Keep prompts simple and direct for this basic skill.
-- If the user starts asking for source image conditioning, switch to the img2img skill.
-- If the user wants motion, switch to the image2video skill.
+- Prefer `size` when the runtime contract already exposes exact dimensions.
+- Use `aspect_ratio` when you want a portable request that the server can map safely.
+- If the user needs source-image conditioning, switch to `popiskill-image-img2img-basic-v1`.
+- If the user needs motion, switch to `popiskill-video-image2video-basic-v1`.

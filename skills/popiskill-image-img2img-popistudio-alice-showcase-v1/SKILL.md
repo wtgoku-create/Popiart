@@ -1,85 +1,81 @@
 ---
 name: popiskill-image-img2img-popistudio-alice-showcase-v1
-description: Generate one showcase image for PopiStudio Alice with strict character consistency. Use this when a creator agent needs a single Alice keyframe, proof frame, or demo image based on the hosted Alice reference image.
+description: Generate one showcase image for PopiStudio Alice with strict character consistency. Use this when a creator agent needs a single Alice proof frame, demo still, or presentation keyframe from the current Alice master reference.
+tags:
+  - official
+  - runtime
+  - image
+  - img2img
+  - showcase
+  - alice
+version: v1
+model_type: image
+estimated_duration_s: 180
+default_profile: true
+profile_description: Official PopiStudio Alice showcase still-image skill.
 ---
 
-# PopiStudio Alice Showcase
+# PopiStudio Alice Image Showcase
 
-This skill is a showcase-style image-to-image workflow for the PopiStudio Alice
-character.
+This is an official PopiArt showcase runtime skill for the PopiStudio Alice character.
+
+- `Popiart_skillhub` owns the public skill definition.
+- `popiartServer` owns the Alice reference distribution for each environment, registration, jobs, artifacts, and stable media URLs.
+- `PopiNewAPI` owns provider routing and image-generation channels.
+- `popiartcli` owns discovery, `run`, `jobs`, and artifact retrieval.
 
 Use it when the goal is to:
 
 - generate one Alice showcase frame for demos or presentations
-- keep Alice as the fixed main protagonist across new scenes
-- test character-consistent img2img flow with a hosted reference image
-- create one storyboard proof frame before moving into a larger sequence
+- keep Alice as the fixed protagonist across a new scene
+- validate character-consistent img2img flow with the current Alice master reference
 
-Do not use this skill for:
+Do not use it for:
 
-- text-only generation without a reference image
+- text-only generation without an Alice reference
+- changing Alice into a different protagonist
 - multi-image batch generation
-- turning Alice into a different character
 - long-form video output
 
-## Fixed reference
-
-Always use this hosted Alice reference image as the canonical source:
-
-`http://8.136.121.101:8790/media/Character_id_card/alice.jpg`
-
-The reference image is not a loose style hint. Alice must remain the complete
-main protagonist in the generated image.
-
-## Required inputs
+## Required input
 
 - `scene_prompt`: the new scene or action for Alice
 
-## Optional inputs
+## Source input
 
-- `shot_type`: for example `medium shot`, `close-up`, `wide shot`
-- `camera`: for example `eye level`, `slight low angle`
-- `mood`: short emotional or lighting direction
-- `aspect_ratio`: for example `1:1`, `16:9`, `9:16`
-- `retry_on_character_drift`: default `true`
+Prefer one Alice reference source:
+
+- `source_artifact_id`: preferred when the current Alice master already exists as a PopiArt artifact
+- `reference_image_url` or `image_url`: use the stable Alice media URL published by `popiartServer` for the current environment
+
+## Optional input
+
+- `shot_type`
+- `camera`
+- `mood`
+- `aspect_ratio`
+- `size`
+- `seed`
+- `retry_on_character_drift`
+- `notes`
 
 ## Character guardrails
 
-The prompt must preserve:
+Preserve:
 
-- same Alice identity
-- same anime facial structure and recognizability
-- same hairstyle and hair color
-- same clothing language and main palette
+- Alice identity and recognizability
+- hairstyle, hair color, and facial structure
+- main clothing language and palette
 - Alice as the visual center of the frame
-
-## Scene guardrails
-
-This showcase skill is tuned for:
-
-- real-world modern Chinese life scenes
-- Sony-style photo realism
-- natural light
-- warm realistic tone
-- high-detail presentation quality
-
-Recommended scene clause:
-
-```text
-real-world modern Chinese living scene, Sony photo realism, natural light, warm realistic tone, high detail, clean composition
-```
 
 ## Workflow
 
-1. Use the fixed Alice reference image URL.
-2. Build one prompt that combines:
-   - Alice identity consistency
-   - the user scene
-   - the modern Chinese real-life visual direction
+1. Resolve the Alice reference from `source_artifact_id` or a stable Alice media URL.
+2. Build one prompt that combines Alice consistency with the requested scene.
 3. Run one img2img generation only.
-4. Wait for the job to finish.
-5. Pull the artifact if the user wants the local file.
-6. If Alice is not clearly preserved as the main protagonist, rerun once with stronger character wording.
+4. Wait for completion.
+5. Pull the artifact if a local file is needed.
+6. Retry once only when character drift is obvious and the request explicitly allows it.
 
 ## Command pattern
 
@@ -90,15 +86,15 @@ popiart run popiskill-image-img2img-popistudio-alice-showcase-v1 --input @params
 Inline example:
 
 ```sh
-popiart run popiskill-image-img2img-popistudio-alice-showcase-v1 --input '{"scene_prompt":"Alice waits outside a neighborhood convenience store at dusk, holding milk tea","shot_type":"medium shot","mood":"quiet and warm","aspect_ratio":"16:9"}' --wait
+popiart run popiskill-image-img2img-popistudio-alice-showcase-v1 --input '{"scene_prompt":"Alice waits outside a neighborhood convenience store at dusk, holding milk tea","reference_image_url":"https://media.example.com/popistudio/alice-master.jpg","shot_type":"medium shot","mood":"quiet and warm","aspect_ratio":"16:9"}' --wait
 ```
 
 ## Payload template
 
 ```json
 {
-  "reference_image_url": "http://8.136.121.101:8790/media/Character_id_card/alice.jpg",
   "scene_prompt": "Alice waits outside a neighborhood convenience store at dusk, holding milk tea",
+  "reference_image_url": "https://media.example.com/popistudio/alice-master.jpg",
   "shot_type": "medium shot",
   "camera": "eye level",
   "mood": "quiet and warm",
@@ -109,13 +105,14 @@ popiart run popiskill-image-img2img-popistudio-alice-showcase-v1 --input '{"scen
 
 ## Output handling
 
-- read `artifact_ids` from the finished job
-- use `popiart artifacts pull <artifact-id>` to save the image locally
-- record whether Alice consistency passed or needs one retry
+- read `job_id`
+- read `artifact_ids`
+- inspect `url` or `media_id` when a stable media URL is returned
+- use `popiart artifacts pull <artifact-id>` to save the showcase frame locally
 
 ## Operating guidance
 
-- Keep the request to one frame only. This is a showcase skill, not a full episode workflow.
-- Prefer everyday Chinese modern-life scenes over abstract fantasy scenes.
-- If the user wants a multi-shot sequence, hand off to a storyboard or video-oriented Alice workflow.
+- Prefer a current Alice master artifact over a raw external URL when both are available.
+- Keep the request to one frame only.
+- If the user wants a short motion teaser, switch to `popiskill-video-image2video-popistudio-alice-showcase-v1`.
 - If the user wants a different protagonist, do not use this skill.
