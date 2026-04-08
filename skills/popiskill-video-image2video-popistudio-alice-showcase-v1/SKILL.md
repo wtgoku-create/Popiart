@@ -83,7 +83,7 @@ popiart run popiskill-video-image2video-popistudio-alice-showcase-v1 --input @pa
 Inline example:
 
 ```sh
-popiart run popiskill-video-image2video-popistudio-alice-showcase-v1 --input '{"image_url":"https://media.example.com/popistudio/alice-master.jpg","motion_prompt":"Alice looks up and smiles while the camera slowly pushes in","duration_s":4,"camera_motion":"slow push-in","aspect_ratio":"16:9"}' --wait
+popiart run popiskill-video-image2video-popistudio-alice-showcase-v1 --input '{"image_url":"https://media.example.com/popistudio/alice-master.jpg","motion_prompt":"Alice looks up and smiles while the camera slowly pushes in","duration_s":5,"camera_motion":"slow push-in","aspect_ratio":"16:9"}' --wait
 ```
 
 ## Payload template
@@ -92,7 +92,7 @@ popiart run popiskill-video-image2video-popistudio-alice-showcase-v1 --input '{"
 {
   "image_url": "https://media.example.com/popistudio/alice-master.jpg",
   "motion_prompt": "Alice looks up and smiles while the camera slowly pushes in",
-  "duration_s": 4,
+  "duration_s": 5,
   "camera_motion": "slow push-in",
   "mood": "warm and hopeful",
   "aspect_ratio": "16:9",
@@ -110,5 +110,6 @@ popiart run popiskill-video-image2video-popistudio-alice-showcase-v1 --input '{"
 ## Operating guidance
 
 - Keep the clip short and the motion instruction singular.
+- For now, pass `duration_s` or `seconds` as `5` or greater.
 - Prefer a current Alice keyframe artifact over a raw external URL when both are available.
 - If the user first needs a still frame, run `popiskill-image-img2img-popistudio-alice-showcase-v1`.

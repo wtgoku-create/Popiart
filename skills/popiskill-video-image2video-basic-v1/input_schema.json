@@ -23,11 +23,11 @@
     },
     "duration_s": {
       "type": "number",
-      "description": "Preferred clip length in seconds."
+      "description": "Preferred clip length in seconds. For now, pass 5 or greater."
     },
     "seconds": {
       "type": "number",
-      "description": "Compatibility alias for duration_s."
+      "description": "Compatibility alias for duration_s. For now, pass 5 or greater."
     },
     "fps": {
       "type": "number",

@@ -73,7 +73,7 @@ popiart run popiskill-video-image2video-basic-v1 --input @params.json --wait
 Inline example:
 
 ```sh
-popiart run popiskill-video-image2video-basic-v1 --input '{"source_artifact_id":"art_123","prompt":"the camera slowly pushes in while the hair moves in the wind","duration_s":4}' --wait
+popiart run popiskill-video-image2video-basic-v1 --input '{"source_artifact_id":"art_123","prompt":"the camera slowly pushes in while the hair moves in the wind","duration_s":5}' --wait
 ```
 
 ## Payload template
@@ -82,7 +82,7 @@ popiart run popiskill-video-image2video-basic-v1 --input '{"source_artifact_id":
 {
   "source_artifact_id": "art_123",
   "prompt": "the camera slowly pushes in while the hair moves in the wind",
-  "duration_s": 4,
+  "duration_s": 5,
   "camera_motion": "slow push-in",
   "seed": 42
 }
@@ -102,4 +102,5 @@ After the job finishes:
 - For local source files, upload first with `popiart artifacts upload ./source.png --role source`.
 - `reference_image_url` is a compatibility alias for `image_url`.
 - `seconds` is a compatibility alias for `duration_s`.
+- For now, pass `duration_s` or `seconds` as `5` or greater.
 - If the user only has text, run `popiskill-image-text2image-basic-v1` first.
