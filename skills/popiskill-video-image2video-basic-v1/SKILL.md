@@ -26,6 +26,7 @@ This is an official PopiArt runtime catalog skill.
 Use it when the goal is to:
 
 - animate one still image into one short clip
+- generate a start-end-frame clip from a first frame and final frame
 - validate the basic PopiArt video path
 - generate a quick motion preview from an artifact or image URL
 
@@ -42,8 +43,19 @@ Do not use it for:
   - `image_url`, or
   - `reference_image_url`
 
+For start-end-frame video, provide the first frame through the same source
+field above, then provide the final frame through one of:
+
+- `last_frame_image_url`
+- `end_frame_image_url`
+- `last_frame_artifact_id`
+- `end_frame_artifact_id`
+- `images[1]` when using the gateway-compatible `images` array directly
+
 ## Optional input
 
+- `images`
+- `metadata`
 - `prompt`
 - `negative_prompt`
 - `duration_s`
@@ -52,6 +64,7 @@ Do not use it for:
 - `camera_motion`
 - `motion_intensity`
 - `style`
+- `size`
 - `aspect_ratio`
 - `seed`
 - `notes`
@@ -60,9 +73,10 @@ Do not use it for:
 
 1. Prefer `source_artifact_id` when the source image already comes from PopiArt.
 2. Use `image_url` only when the source already lives at a stable URL.
-3. Keep the clip short and the motion instruction singular.
-4. Run through `popiart` and wait for the job.
-5. Pull the returned artifact when a local file is needed.
+3. For start-end-frame video, pass the first frame as the normal source and the final frame as `last_frame_image_url` / `last_frame_artifact_id`; gateway-compatible callers may also pass `images[0]` + `images[1]`.
+4. Keep the clip short and the motion instruction singular.
+5. Run through `popiart` and wait for the job.
+6. Pull the returned artifact when a local file is needed.
 
 ## Command pattern
 
@@ -76,6 +90,12 @@ Inline example:
 popiart run popiskill-video-image2video-basic-v1 --input '{"source_artifact_id":"art_123","prompt":"the camera slowly pushes in while the hair moves in the wind","duration_s":5}' --wait
 ```
 
+Start-end-frame example:
+
+```sh
+popiart run popiskill-video-image2video-basic-v1 --input '{"image_url":"https://example.com/first-frame.jpg","last_frame_image_url":"https://example.com/last-frame.jpg","prompt":"transition smoothly from the first frame to the final frame","duration_s":5,"metadata":{"action":"firstTailGenerate"}}' --wait
+```
+
 ## Payload template
 
 ```json
@@ -85,6 +105,21 @@ popiart run popiskill-video-image2video-basic-v1 --input '{"source_artifact_id":
   "duration_s": 5,
   "camera_motion": "slow push-in",
   "seed": 42
+}
+```
+
+Start-end-frame payload:
+
+```json
+{
+  "image_url": "https://example.com/first-frame.jpg",
+  "last_frame_image_url": "https://example.com/last-frame.jpg",
+  "prompt": "transition smoothly from the first frame to the final frame",
+  "duration_s": 5,
+  "size": "720p",
+  "metadata": {
+    "action": "firstTailGenerate"
+  }
 }
 ```
 
@@ -101,6 +136,9 @@ After the job finishes:
 
 - For local source files, upload first with `popiart artifacts upload ./source.png --role source`.
 - `reference_image_url` is a compatibility alias for `image_url`.
+- `end_frame_image_url` is a compatibility alias for `last_frame_image_url`.
+- `end_frame_artifact_id` is a compatibility alias for `last_frame_artifact_id`.
 - `seconds` is a compatibility alias for `duration_s`.
+- If a final frame is present and `metadata.action` is omitted, compatible runtimes should default it to `firstTailGenerate`.
 - For now, pass `duration_s` or `seconds` as `5` or greater.
 - If the user only has text, run `popiskill-image-text2image-basic-v1` first.
